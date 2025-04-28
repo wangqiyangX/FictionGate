@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		BD510F202DBFBE960035667C /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = BD510F1F2DBFBE960035667C /* SwiftSoup */; };
+		BD510F232DBFBEB80035667C /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BD510F222DBFBEB80035667C /* Alamofire */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		BD510F002DBFBCCF0035667C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +57,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD510F202DBFBE960035667C /* SwiftSoup in Frameworks */,
+				BD510F232DBFBEB80035667C /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +119,8 @@
 			);
 			name = FictionGate;
 			packageProductDependencies = (
+				BD510F1F2DBFBE960035667C /* SwiftSoup */,
+				BD510F222DBFBEB80035667C /* Alamofire */,
 			);
 			productName = FictionGate;
 			productReference = BD510EEF2DBFBCCD0035667C /* FictionGate.app */;
@@ -195,6 +204,10 @@
 			);
 			mainGroup = BD510EE62DBFBCCD0035667C;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				BD510F1E2DBFBE960035667C /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+				BD510F212DBFBEB80035667C /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BD510EF02DBFBCCD0035667C /* Products */;
 			projectDirPath = "";
@@ -593,6 +606,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BD510F1E2DBFBE960035667C /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.7;
+			};
+		};
+		BD510F212DBFBEB80035667C /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BD510F1F2DBFBE960035667C /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BD510F1E2DBFBE960035667C /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+		BD510F222DBFBEB80035667C /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BD510F212DBFBEB80035667C /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BD510EE72DBFBCCD0035667C /* Project object */;
 }
