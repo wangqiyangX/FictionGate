@@ -1,12 +1,12 @@
 import Foundation
 
 @Observable
-class BookListViewModel: ObservableObject {
-    var books: [Book] = []
+class ItemListViewModel: ObservableObject {
+    var books: [ItemInfo] = []
     var isLoading = false
     var error: Error?
 
-    private let bookService = BookService.shared
+    private let bookService = MainService.shared
 
     func fetchBooks(_ pageRule: PageRule) async {
         isLoading = true
