@@ -22,8 +22,29 @@ class MainService {
         }
     }
 
-    func fetchBookList(_ pageRule: PageRule) async throws -> [ItemInfo] {
-        let response = try await AF.request(pageRule.url).serializingString()
+    func fetchNextPageURL(url: String, _ nextPageURLRule: RuleItem) async throws
+        -> String
+    {
+        let response = try await AF.request(url).serializingString()
+            .value
+        let doc = try SwiftSoup.parse(response)
+
+        let nextPageElement = try doc.select(nextPageURLRule.selector)
+            .first()
+
+        let nextPageURL = getFunction(
+            for: nextPageURLRule.function ?? .text,
+            from: nextPageElement,
+            attrKey: nextPageURLRule.parameters ?? ""
+        )
+
+        return nextPageURL ?? ""
+    }
+
+    func fetchBookList(_ pageRule: PageRule, url: String) async throws
+        -> [ItemInfo]
+    {
+        let response = try await AF.request(url).serializingString()
             .value
         let doc = try SwiftSoup.parse(response)
 
@@ -37,7 +58,7 @@ class MainService {
         let itemInfoRule = pageRule.itemInfoRule
 
         for element in bookElements {
-            let nameElement = try element.select(itemInfoRule.author.selector)
+            let nameElement = try element.select(itemInfoRule.name.selector)
                 .first()
             let urlElement = try element.select(itemInfoRule.url.selector)
                 .first()

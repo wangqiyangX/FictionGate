@@ -46,6 +46,7 @@ struct SourceRule {
 struct PageRule {
     var url: String
     var name: String
+    var nextPageURLRule: RuleItem
     var itemsRule: RuleItem
     var itemInfoRule: ItemInfoRule
 }

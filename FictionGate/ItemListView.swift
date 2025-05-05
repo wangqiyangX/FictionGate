@@ -10,8 +10,13 @@ import SwiftUI
 
 struct ItemListView: View {
     let xuanhuanPage = PageRule(
-        url: "https://www.xbiqu6.com/xiaoshuo/xuanhuan_1/",
+        url: "xiaoshuo/xuanhuan_1/",
         name: "玄幻小说",
+        nextPageURLRule: .init(
+            selector: "#pagelink > a:nth-last-child(2)",
+            function: .attr,
+            parameters: "href"
+        ),
         itemsRule: .init(
             selector:
                 "body > div.container > div:nth-child(2) > div.layout.layout2.layout-col2 > ul > li"
@@ -27,37 +32,62 @@ struct ItemListView: View {
             coverURL: .init(selector: "span.s3 > a")
         )
     )
-    @StateObject private var viewModel = ItemListViewModel()
+
+    var viewModel = ItemListViewModel()
+
+    @State private var searchText: String = ""
 
     var body: some View {
         NavigationView {
             List {
-                if viewModel.isLoading {
-                    ProgressView()
-                } else if let error = viewModel.error {
-                    Text("Error: \(error.localizedDescription)")
-                        .foregroundColor(.red)
-                } else {
-                    ForEach(viewModel.books) { book in
+                Section {
+                    ForEach(viewModel.items) { item in
                         NavigationLink {
-                            Text(book.url)
+                            Text(item.url)
                         } label: {
                             LabeledContent {
-                                Text(book.author)
+                                
                             } label: {
-                                Text(book.name)
+                                Text(item.name)
                                     .font(.headline)
-                                Text(book.lastChapter)
+                                Text(item.author)
+                                Text(item.lastChapter)
                             }
                         }
-
+                        .onAppear {
+                            if item.id == viewModel.items.last?.id {
+                                Task {
+                                    await viewModel.fetchItems(
+                                        xuanhuanPage,
+                                        isFirstPage: false
+                                    )
+                                }
+                            }
+                        }
+                    }
+                } header: {
+                    Text("^[\(viewModel.items.count) book](inflect: true)")
+                } footer: {
+                    if viewModel.isLoading {
+                        Text("Loading...")
+                    } else if let error = viewModel.error {
+                        Text("Error: \(error.localizedDescription)")
+                            .foregroundColor(.red)
                     }
                 }
             }
-            .navigationTitle("Books")
-            .task {
-                await viewModel.fetchBooks(xuanhuanPage)
+            .navigationTitle(xuanhuanPage.name)
+            .onAppear {
+                Task {
+                    await viewModel.fetchItems(xuanhuanPage)
+                }
             }
+            .refreshable {
+                Task {
+                    await viewModel.fetchItems(xuanhuanPage)
+                }
+            }
+            .searchable(text: $searchText)
         }
     }
 }
